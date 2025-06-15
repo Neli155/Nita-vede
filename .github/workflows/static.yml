@@ -1,0 +1,131 @@
+<!DOCTYPE html><html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nita vede!</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background-color: #87ceeb;
+      font-family: sans-serif;
+    }
+    canvas {
+      display: block;
+    }
+    #playAgain {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, 100px);
+      padding: 15px 30px;
+      font-size: 24px;
+      background-color: #ffcc00;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      display: none;
+    }
+
+    /* Mobilní ovládání */
+    #controls {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    #controls button {
+      width: 60px;
+      height: 60px;
+      font-size: 30px;
+      border: none;
+      border-radius: 10px;
+      background-color: #ffc107;
+      cursor: pointer;
+    }
+
+    #shoot {
+      position: absolute;
+      bottom: 100px;
+      right: 20px;
+      padding: 15px 20px;
+      font-size: 24px;
+      background-color: #f44336;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="game"></canvas>
+  <button id="playAgain">Hrát znovu</button>
+
+  <!-- Mobilní ovládací tlačítka -->
+  <div id="controls">
+    <button id="left">⬅</button>
+    <div>
+      <button id="up">⬆</button><br />
+      <button id="down">⬇</button>
+    </div>
+    <button id="right">➡</button>
+  </div>
+  <button id="shoot">🎯 Střelba</button>
+
+  <script>
+    const canvas = document.getElementById("game");
+    const ctx = canvas.getContext("2d");
+    const playAgainBtn = document.getElementById("playAgain");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let player, robot, bullets, lasers, keys, gameOver, gameMessage;
+
+    function initGame()Simple workflow for deploying static content to GitHub Pages
+name: Deploy static content to Pages
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ["main"]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # Single deploy job since we're just deploying
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Upload entire repository
+          path: '.'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
